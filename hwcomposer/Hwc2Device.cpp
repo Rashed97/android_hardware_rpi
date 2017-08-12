@@ -484,9 +484,12 @@ Error Hwc2Device::Display::getChangedCompositionTypes(
 }
 
 Error Hwc2Device::Display::getColorModes(uint32_t* outNumModes,
-        int32_t* /*outModes*/)
+        int32_t* outModes)
 {
-    *outNumModes = 0;
+    *outNumModes = 1;
+    if (outModes != NULL) {
+        *outModes = HAL_COLOR_MODE_NATIVE;
+    }
     return Error::None;
 }
 
