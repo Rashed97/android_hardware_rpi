@@ -66,15 +66,15 @@ gralloc1_function_pointer_t Gralloc1Device::GetFunction(gralloc1_device_t *devic
         case GRALLOC1_FUNCTION_DUMP:
             return reinterpret_cast<gralloc1_function_pointer_t>(Dump);
         case GRALLOC1_FUNCTION_CREATE_DESCRIPTOR:
-            return reinterpret_cast<gralloc1_function_pointer_t>(CreateDescriptor);
+            return reinterpret_cast<gralloc1_function_pointer_t>(CreateBufferDescriptor);
         case GRALLOC1_FUNCTION_DESTROY_DESCRIPTOR:
-            return reinterpret_cast<gralloc1_function_pointer_t>(DestroyDescriptor);
+            return reinterpret_cast<gralloc1_function_pointer_t>(DestroyBufferDescriptor);
         case GRALLOC1_FUNCTION_SET_CONSUMER_USAGE:
             return reinterpret_cast<gralloc1_function_pointer_t>(SetConsumerUsage);
         case GRALLOC1_FUNCTION_SET_DIMENSIONS:
-            return reinterpret_cast<gralloc1_function_pointer_t>(SetDimensions);
+            return reinterpret_cast<gralloc1_function_pointer_t>(SetBufferDimensions);
         case GRALLOC1_FUNCTION_SET_FORMAT:
-            return reinterpret_cast<gralloc1_function_pointer_t>(SetFormat);
+            return reinterpret_cast<gralloc1_function_pointer_t>(SetColorFormat);
         case GRALLOC1_FUNCTION_SET_PRODUCER_USAGE:
             return reinterpret_cast<gralloc1_function_pointer_t>(SetProducerUsage);
         case GRALLOC1_FUNCTION_GET_BACKING_STORE:
@@ -114,7 +114,7 @@ gralloc1_function_pointer_t Gralloc1Device::GetFunction(gralloc1_device_t *devic
             return reinterpret_cast<gralloc1_function_pointer_t>(
                     managementHook<&Gralloc1Device::release>);
         case GRALLOC1_FUNCTION_RETAIN_GRAPHIC_BUFFER:
-            return reinterpret_cast<gralloc1_function_pointer_t>(RetainGraphicBuffer);
+            return reinterpret_cast<gralloc1_function_pointer_t>(RetainBuffer);
         case GRALLOC1_FUNCTION_GET_NUM_FLEX_PLANES:
             return reinterpret_cast<gralloc1_function_pointer_t>(
                     bufferHook<decltype(&Buffer::getNumFlexPlanes),
@@ -131,7 +131,7 @@ gralloc1_function_pointer_t Gralloc1Device::GetFunction(gralloc1_device_t *devic
                     lockHook<struct android_ycbcr,
                     &Gralloc1Device::lockYCbCr>);
         case GRALLOC1_FUNCTION_UNLOCK:
-            return reinterpret_cast<gralloc1_function_pointer_t>(Unlock);
+            return reinterpret_cast<gralloc1_function_pointer_t>(UnlockBuffer);
         case GRALLOC1_FUNCTION_INVALID:
             ALOGE("Invalid function descriptor");
             return nullptr;

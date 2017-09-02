@@ -25,27 +25,27 @@ namespace android {
 
 class Gralloc1Device : public gralloc1_device_t
 {
-public:
+ public:
 	Gralloc1Device(const struct drm_gralloc1_module_t* module);
 	~Gralloc1Device();
+  static int CloseDevice(hw_device_t *device);
+  static void GetCapabilities(struct gralloc1_device *device, uint32_t *count,
+            int32_t /*gralloc1_capability_t*/ *capabilities);
+  static gralloc1_function_pointer_t GetFunction(struct gralloc1_device *device,
+          int32_t /*gralloc1_function_descriptor_t*/ descriptor);
 
-private:
+ private:
 	struct Descriptor;
 	class Buffer;
-	static int CloseDevice(hw_device_t *device);
-	static void GetCapabilities(struct gralloc1_device *device, uint32_t *count,
-            int32_t /*gralloc1_capability_t*/ *capabilities);
-	static gralloc1_function_pointer_t GetFunction(struct gralloc1_device *device,
-	        int32_t /*gralloc1_function_descriptor_t*/ descriptor);
-    static void Dump(gralloc1_device_t* /*device*/, uint32_t* size, char* /*buffer*/) {
+    static void Dump(gralloc1_device_t* device, uint32_t* size, char* buffer) {
         *size = 0;
     }
-    static gralloc1_error_t CreateDescriptor(gralloc1_device_t *device,
+    static gralloc1_error_t CreateBufferDescriptor(gralloc1_device_t *device,
             gralloc1_buffer_descriptor_t *descriptor) {
     	if (!device) return GRALLOC1_ERROR_BAD_DESCRIPTOR;
     	else return getImpl(device)->createDescriptor(descriptor);
     }
-    static gralloc1_error_t DestroyDescriptor(gralloc1_device_t* device,
+    static gralloc1_error_t DestroyBufferDescriptor(gralloc1_device_t* device,
             gralloc1_buffer_descriptor_t descriptor) {
     	if (!device) return GRALLOC1_ERROR_BAD_DESCRIPTOR;
     	else return getImpl(device)->destroyDescriptor(descriptor);
@@ -54,12 +54,12 @@ private:
             gralloc1_buffer_descriptor_t descriptor, gralloc1_consumer_usage_t usage) {
         return callDescriptorFunction(device, descriptor, &Descriptor::setConsumerUsage, usage);
     }
-    static gralloc1_error_t SetDimensions(gralloc1_device_t* device,
+    static gralloc1_error_t SetBufferDimensions(gralloc1_device_t* device,
             gralloc1_buffer_descriptor_t descriptor, uint32_t width, uint32_t height) {
         return callDescriptorFunction(device, descriptor, &Descriptor::setDimensions,
                 width, height);
     }
-    static gralloc1_error_t SetFormat(gralloc1_device_t* device,
+    static gralloc1_error_t SetColorFormat(gralloc1_device_t* device,
             gralloc1_buffer_descriptor_t descriptor, int32_t format) {
         return callDescriptorFunction(device, descriptor, &Descriptor::setFormat, format);
     }
@@ -83,11 +83,11 @@ private:
     static gralloc1_error_t AllocateWithId(gralloc1_device_t* device,
             gralloc1_buffer_descriptor_t descriptors,
             gralloc1_backing_store_t id, buffer_handle_t* outBuffer);
-    static gralloc1_error_t RetainGraphicBuffer(gralloc1_device_t* device,
+    static gralloc1_error_t RetainBuffer(gralloc1_device_t* device,
             const GraphicBuffer* buffer) {
         return getImpl(device)->retain(buffer);
     }
-    static gralloc1_error_t Unlock(gralloc1_device_t* device,
+    static gralloc1_error_t UnlockBuffer(gralloc1_device_t* device,
             buffer_handle_t bufferHandle, int32_t* outReleaseFenceFd) {
         auto impl = getImpl(device);
         auto buffer = impl->getBuffer(bufferHandle);
