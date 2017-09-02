@@ -36,7 +36,7 @@ int Gralloc1Device::CloseDevice(hw_device_t *device) {
 	return 0;
 }
 
-void Gralloc1Device::GetCapabilities(struct gralloc1_device */*device*/, uint32_t *outCount,
+void Gralloc1Device::GetCapabilities(struct gralloc1_device *device, uint32_t *outCount,
                                   int32_t /*gralloc1_capability_t*/ *outCapabilities) {
 	if (outCapabilities == nullptr) {
 		*outCount = 1;
